@@ -110,6 +110,12 @@ class PeriodService {
   Future<CycleRecord?> cycleFor(String periodId) =>
       _cycles.byPeriodId(_db, periodId);
 
+  /// User-set default cycle length, used when there are too few cycles.
+  Future<int> defaultCycleLength() => _settings.defaultCycle(_db);
+
+  /// User-set default period length (days).
+  Future<int> defaultPeriodLength() => _settings.defaultPeriod(_db);
+
   // ------------------------------------------------------------ mutations
 
   /// "시작" on [date]: records a new actual period starting that day.

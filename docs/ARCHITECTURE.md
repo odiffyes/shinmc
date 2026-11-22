@@ -19,8 +19,16 @@ lib/
     db/schema.dart          SQLite 스키마 + 마이그레이션 목록
     db/app_database.dart    DB 열기, 전체 삭제
     repositories/           테이블별 DAO (DatabaseExecutor 기반 → 트랜잭션 안에서 사용 가능)
-  features/                 화면 단위 UI (2단계부터 확장)
-    home/
+  features/
+    calendar/
+      calendar_month.dart     날짜 칸 표시 계산 (순수 함수, 6주×7일)
+      calendar_controller.dart 표시 월, 드래그 상태, 다시 읽기 (순차 실행)
+      calendar_screen.dart    메인 화면
+      month_grid.dart         그리드 + 길게 누르기 드래그
+      day_cell.dart           날짜 칸 (× 버튼 포함)
+      date_action_popup.dart  시작/종료 팝업
+    settings/
+      calendar_settings_screen.dart  캘린더 연동 (5단계 전 자리만)
 ```
 
 의존 방향: `features → domain/services → data/repositories → data/db`. 도메인 모델은 모든 계층에서 공유.
@@ -67,6 +75,9 @@ lib/
 6. **스트레스 변경**은 `data_version`을 올리지 않고 동기화도 예약하지 않음 (예측에 영향 없음).
 7. **되돌리기**: 변경된 행의 이전 상태를 그대로 복원 → 삭제 시 리셋됐던 이웃 주기 설정까지 복원. 되돌리기 결과도 토큰을 돌려주므로 다시 실행 가능.
 8. **INSERT OR REPLACE 사용 금지** (`period_records`): SQLite는 REPLACE 시 행을 삭제 후 삽입하여 CASCADE로 주기 설정이 사라짐. update-then-insert 사용.
+9. **임시 예측 (2단계, 사용자 승인 옵션 A)**: `InterimPredictor` = 최근 실제 시작일 + 기본 주기(28일). 4단계 예측 엔진으로 교체. 화면에는 항상 "예상"으로 표시.
+10. **드래그 중 상태**는 `CalendarController.drag`에만 있고 DB에는 손을 뗄 때 한 번만 저장 → 드래그 중 동기화가 일어날 수 없음 (§4.4, §9.4).
+11. **달력은 항상 6주** 표시: 달마다 화면 높이가 바뀌지 않게.
 
 ## 개인정보 (현재 반영분)
 

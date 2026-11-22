@@ -6,12 +6,19 @@ class AppColors {
   static const text = Color(0xFF1C1C1E);
   static const secondaryText = Color(0xFF8E8E93);
   static const separator = Color(0xFFE5E5EA);
+  static const sunday = Color(0xFFE5484D);
 
-  /// Actual period days.
-  static const actual = Color(0xFFF06292);
+  /// Actual start date: full, strong pink cell (§3.2).
+  static const actualStart = Color(0xFFEC407A);
 
-  /// Predicted period days (lighter, never confused with actual).
-  static const predicted = Color(0xFFF8BBD0);
+  /// Other actual period days.
+  static const actual = Color(0xFFF7A1BF);
+
+  /// Predicted days: light fill + thin border, so they read differently
+  /// from actual days even without colour perception.
+  static const predictedFill = Color(0xFFFDEEF3);
+  static const predictedBorder = Color(0xFFF5B8CC);
+  static const predictedText = Color(0xFFC2185B);
 }
 
 class AppTheme {
@@ -19,7 +26,7 @@ class AppTheme {
     useMaterial3: true,
     scaffoldBackgroundColor: AppColors.background,
     colorScheme: ColorScheme.fromSeed(
-      seedColor: AppColors.actual,
+      seedColor: AppColors.actualStart,
       surface: AppColors.background,
     ),
     appBarTheme: const AppBarTheme(
@@ -29,5 +36,6 @@ class AppTheme {
       scrolledUnderElevation: 0,
       centerTitle: true,
     ),
+    snackBarTheme: const SnackBarThemeData(behavior: SnackBarBehavior.floating),
   );
 }

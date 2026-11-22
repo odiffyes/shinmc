@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import 'core/theme.dart';
-import 'features/home/home_screen.dart';
+import 'features/calendar/calendar_screen.dart';
 
 class ShinmcApp extends StatelessWidget {
   const ShinmcApp({super.key});
@@ -12,7 +12,7 @@ class ShinmcApp extends StatelessWidget {
       title: '주기',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
-      home: const HomeScreen(),
+      home: const CalendarScreen(),
     );
   }
 }
